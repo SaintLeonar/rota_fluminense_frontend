@@ -39,6 +39,10 @@ body {
   padding: 15px;
 }
 
+.card h5 {
+  margin-bottom: 10px;
+}
+
 .local-cidade {
   font-size: 0.9rem;
   color: #6c757d;
@@ -46,4 +50,35 @@ body {
 
 .local-descricao {
   font-size: 0.95rem;
+}
+
+.avaliacao strong {
+  color: #0d6efd;
+}
+
+.nota {
+  font-weight: bold;
+  color: #ffc107;
+}
+
+form {
+  margin-top: 10px;
+}
+
+textarea {
+  resize: none;
+}
+
+.btn-delete {
+  margin-left: 10px;
+}
+
+.avaliacao {
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+}
+
+.media-avaliacao {
+  font-weight: bold;
+  color: #ffc107;
 }

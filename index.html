@@ -1,31 +1,171 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Rota Fluminense</title>
+    <meta charset="UTF-8">
+    <title>Rota Fluminense</title>
 
-  <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header class="header">
-    <h1>Rota Fluminense</h1>
-    <p>Descubra lugares incríveis no Rio de Janeiro</p>
-  </header>
+    <!-- HEADER -->
+    <header class="header">
+        <h1>Rota Fluminense</h1>
+        <p>Descubra lugares incríveis no Rio de Janeiro</p>
+    </header>
 
-  <!-- CONTEÚDO -->
-  <main class="container mt-4">
+    <!-- CONTEÚDO -->
+    <main class="container mt-4">
 
-    <div class="row" id="locais-container">
-      <!-- Cards serão inseridos aqui -->
+        <!-- BOTÃO -->
+        <div class="mb-3">
+            <button id="btn-abrir-local" class="btn btn-success">
+            + Adicionar local
+            </button>
+        </div>
+
+        <!-- FORM (escondido) -->
+        <div id="form-local-container" class="card p-3 mb-4" style="display: none;">
+            <h5>Novo Local</h5>
+
+            <form id="form-local">
+            <div class="mb-2">
+                <input type="text" id="nome" class="form-control" placeholder="Nome" required>
+            </div>
+
+            <div class="mb-2">
+                <select id="cidade" class="form-select" required>
+                    <option value="">Selecione a cidade</option>
+
+                    <optgroup label="Região Metropolitana">
+                        <option value="Rio de Janeiro">Rio de Janeiro</option>
+                        <option value="Niterói">Niterói</option>
+                        <option value="São Gonçalo">São Gonçalo</option>
+                    </optgroup>
+
+                    <optgroup label="Região dos Lagos">
+                        <option value="Cabo Frio">Cabo Frio</option>
+                        <option value="Arraial do Cabo">Arraial do Cabo</option>
+                        <option value="Búzios">Búzios</option>
+                    </optgroup>
+
+                    <optgroup label="Região Serrana">
+                        <option value="Petrópolis">Petrópolis</option>
+                        <option value="Teresópolis">Teresópolis</option>
+                        <option value="Nova Friburgo">Nova Friburgo</option>
+                    </optgroup>
+
+                    <optgroup label="Costa Verde">
+                        <option value="Angra dos Reis">Angra dos Reis</option>
+                        <option value="Paraty">Paraty</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <div class="mb-2">
+                <input type="text" id="categoria" class="form-control" placeholder="Categoria" required>
+            </div>
+
+            <div class="mb-2">
+                <textarea id="descricao" class="form-control" placeholder="Descrição" required></textarea>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <button type="button" id="btn-cancelar-local" class="btn btn-secondary">Cancelar</button>
+            </div>
+            </form>
+        </div>
+
+        <!-- FILTROS -->
+        <div class="card p-3 mb-4">
+        <h5>Filtros</h5>
+
+        <div class="row g-2">
+
+            <div class="col-md-4">
+            <input type="text" id="filtro-cidade" class="form-control" placeholder="Filtrar por cidade">
+            </div>
+
+            <div class="col-md-4">
+            <input type="text" id="filtro-categoria" class="form-control" placeholder="Filtrar por categoria">
+            </div>
+
+            <div class="col-md-4 d-flex gap-2">
+            <button class="btn btn-primary w-100" onclick="filtrarLocais()">Filtrar</button>
+            <button class="btn btn-secondary w-100" onclick="limparFiltro()">Limpar</button>
+            </div>
+
+        </div>
+        </div>
+
+        <!-- LISTA -->
+        <div class="row" id="locais-container"></div>
+
+    </main>
+
+    <!-- MODAL AVALIAÇÕES -->
+    <div class="modal fade" id="modalAvaliacoes" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitulo">Avaliações</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- LISTA -->
+        <div id="lista-avaliacoes"></div>
+
+        <hr>
+
+        <!-- BOTÃO -->
+        <button id="btn-abrir-form" class="btn btn-outline-primary mb-3">
+        + Adicionar avaliação
+        </button>
+
+        <!-- FORM (começa escondido) -->
+        <div id="form-container" style="display: none;">
+            <h6>Nova avaliação</h6>
+            <form id="form-avaliacao">
+                <div class="mb-2">
+                <input type="text" id="nome_usuario" class="form-control" placeholder="Seu nome" required>
+                </div>
+
+                <div class="mb-2">
+                <select id="nota" class="form-select" required>
+                    <option value="">Estrelas (de 1 a 5)</option>
+                    <option value="1">⭐ 1</option>
+                    <option value="2">⭐⭐ 2</option>
+                    <option value="3">⭐⭐⭐ 3</option>
+                    <option value="4">⭐⭐⭐⭐ 4</option>
+                    <option value="5">⭐⭐⭐⭐⭐ 5</option>
+                </select>
+                </div>
+
+                <div class="mb-2">
+                <textarea id="comentario" class="form-control" placeholder="Comentário (opcional)"></textarea>
+                </div>
+
+                <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Enviar</button>
+                <button type="button" id="btn-cancelar" class="btn btn-secondary">Cancelar</button>
+                </div>
+            </form>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
 
-  </main>
+    <!-- Bootstrap JS (necessário pro modal funcionar) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  <script src="scripts.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>
