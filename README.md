@@ -16,9 +16,11 @@ cd rota_fluminense_frontend
 
 Abrir o arquivo no navegador
 
-### 3. Executar o Backend
+### 3. Executar o Backend (Opcional)
 
-Certifique-se de que o backend esteja rodando em http://127.0.0.1:5000/ antes de executar o frontend
+Certifique-se de que o backend esteja rodando em http://127.0.0.1:5000/ caso queira persistir e consultar os dados.
+
+---
 
 ### Autor
 
