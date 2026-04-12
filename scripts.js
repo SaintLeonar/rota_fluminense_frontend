@@ -110,13 +110,23 @@ function renderLocais(data) {
 async function carregarLocais() {
   try {
     const response = await fetch(`${API_URL}/locais`);
-    if (!response.ok) throw new Error();
 
-    const data = await response.json();
+    // Backend respondeu -> NÃO é offline
     modoOffline = false;
 
+    if (response.status === 404) {
+      // backend respondeu mas não tem dados
+      renderLocais([]);
+      return;
+    }
+
+    const data = await response.json();
     renderLocais(data);
-  } catch {
+
+  } catch (error) {
+    // só entra aqui se realmente não conseguiu conectar
+    console.warn("Modo offline ativado");
+
     modoOffline = true;
     renderLocais(locaisMock);
   }
